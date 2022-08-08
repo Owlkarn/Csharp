@@ -2,16 +2,17 @@
 string tryPassword = Console.ReadLine(),
        realPassword = "geekbrains",
        secretMessage = "Образовательная платформа";
-int count = 0;
+int count = 0,
+    tries = 3;
 
-while (count < 4)
+do
 {
     if (tryPassword.ToLower() == realPassword)
     {
         Console.Write("Образовательная платформа");
-        count = 5;
+        count = tries;
     }
-    else if (count != 2)
+    else if (count != tries - 1)
     {
         Console.Write("Пароль неверный, введите пароль: ");
         tryPassword = Console.ReadLine();
@@ -20,6 +21,6 @@ while (count < 4)
     else
     {
         Console.WriteLine("Пароль неверный. Попытки закончились");
-        count = 5;
+        count = tries;
     }
-}
+} while (count < tries); 
