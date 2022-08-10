@@ -17,8 +17,4 @@ while(length != 3)
     length = (int)Math.Log10(number) + 1;
 }
 
-if (length == 3)
-{
-    int chisl = SecCifr(number);
-    Console.WriteLine(chisl);
-}
+Console.WriteLine(SecCifr(number));
