@@ -15,48 +15,70 @@ string command = String.Empty,
        setName = "setname";
 
 Console.WriteLine("Список команд:");
-        Console.WriteLine("SetName – Установить имя");
-        Console.WriteLine("Password – Установить пароль");
-        Console.WriteLine("Name – вывести имя после ввода пароля");
-        Console.WriteLine("Exit – выход");
-        Console.WriteLine("Help – список команд");
+Console.WriteLine("SetName – Установить/изменить имя");
+Console.WriteLine("Password – Установить/изменить пароль");
+Console.WriteLine("Name – вывести имя после ввода пароля");
+Console.WriteLine("Exit – выход");
+Console.WriteLine("Help – список команд");
 
 while (command.ToLower() != programmEnd)
 {
     Console.Write("НЕ ЗАКРЫВАЙ МЕНЯ!!! : ");
     command = Console.ReadLine();
 
-    switch (command)
-{
-    case "password":
-    Console.WriteLine("x>0 y>0");
-    break;
-
-    case 2:
-    Console.WriteLine("x<0 y>0");
-    break;
-
-    case 3:
-    Console.WriteLine("x<0 y<0");
-    break;
-
-    case 4:
-    Console.WriteLine("x>0 y<0");
-    break;
-
-    default:
-    Console.WriteLine("Введено неверное число");
-    break;
-}
     if (command.ToLower() == password)
     {
-        writePassword = ReadStr("Введите новый пароль: ");
-        if (writePassword == programmEnd) break;
+        if (writePassword == String.Empty)
+        {
+            writePassword = ReadStr("Установите новый пароль: ");
+            if (writePassword == programmEnd)
+            {
+                writePassword = String.Empty;
+                break;
+            }
+        }
+        else
+        {
+            readPassword = ReadStr("Введите пароль: ");
+
+            while (readPassword != writePassword)
+            {
+                readPassword = ReadStr("Пароль не верный. Введите пароль: ");
+                if (readPassword == programmEnd)
+                {
+                    readPassword = String.Empty; // стоп тут был
+                    break;
+                }
+            }
+            if (readPassword == writePassword) 
+            {
+                writePassword = ReadStr("Установите новый пароль: ");
+            }
+        }
     }
     if (command.ToLower() == setName)
     {
-        writeSetName = ReadStr("Введите новое имя пользователя: ");
-        if (writeSetName == programmEnd) break;
+        if (writeSetName == String.Empty && writePassword == String.Empty)
+        {
+            writeSetName = ReadStr("Установите новое имя пользователя: ");writePassword = ReadStr("Установите новый пароль: ");
+        }
+        else if (writeSetName == String.Empty && writePassword != String.Empty)
+        {
+            writeSetName = ReadStr("Установите новое имя пользователя: ");
+        }
+        else
+        {
+            readPassword = ReadStr("Для смены имени введите пароль: ");
+
+            while (readPassword != writePassword)
+            {
+                readPassword = ReadStr("Пароль не верный. Для смены имени введите пароль: ");
+            }
+            if (readPassword == writePassword) 
+            {
+                writeSetName = ReadStr("Установите новое имя пользователя: ");
+            }
+        }
     }
     if (command.ToLower() == name)
     {
@@ -71,8 +93,8 @@ while (command.ToLower() != programmEnd)
         else
         {
             readPassword = ReadStr("Введите пароль: ");
-            if (readPassword == programmEnd) break;
-            while (readPassword != writePassword || readPassword != programmEnd)
+
+            while (readPassword != writePassword && readPassword != programmEnd)
             {
                 readPassword = ReadStr("Пароль не верный. Введите пароль: ");
             }
@@ -82,8 +104,8 @@ while (command.ToLower() != programmEnd)
     if (command.ToLower() == help)
     {
         Console.WriteLine("Список команд:");
-        Console.WriteLine("SetName – Установить имя");
-        Console.WriteLine("Password – Установить пароль");
+        Console.WriteLine("SetName – Установить/изменить имя");
+        Console.WriteLine("Password – Установить/изменить пароль");
         Console.WriteLine("Name – вывести имя после ввода пароля");
         Console.WriteLine("Exit – выход");
         Console.WriteLine("Help – список команд");
