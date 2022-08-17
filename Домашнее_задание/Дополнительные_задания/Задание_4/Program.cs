@@ -7,15 +7,16 @@
 string command = String.Empty,
        programmEnd = "exit",
        writePassword = String.Empty,
-       readPassword = String.Empty,
+       savePassword = String.Empty,
        password = "password",
        help = "help",
        name = "name",
        writeSetName = String.Empty,
+       saveName = String.Empty,
        setName = "setname";
 
 Console.WriteLine("Список команд:");
-Console.WriteLine("SetName – Установить/изменить имя");
+Console.WriteLine("SetName – Установить/изменить имя (если не задан пароль, то появится приглашение для установки пароля)");
 Console.WriteLine("Password – Установить/изменить пароль");
 Console.WriteLine("Name – вывести имя после ввода пароля");
 Console.WriteLine("Exit – выход");
@@ -28,7 +29,7 @@ while (command.ToLower() != programmEnd)
 
     if (command.ToLower() == password)
     {
-        if (writePassword == String.Empty)
+        if (savePassword == String.Empty)
         {
             writePassword = ReadStr("Установите новый пароль: ");
             if (writePassword == programmEnd)
@@ -36,47 +37,111 @@ while (command.ToLower() != programmEnd)
                 writePassword = String.Empty;
                 break;
             }
+            savePassword = writePassword;
         }
         else
         {
-            readPassword = ReadStr("Введите пароль: ");
-
-            while (readPassword != writePassword)
-            {
-                readPassword = ReadStr("Пароль не верный. Введите пароль: ");
-                if (readPassword == programmEnd)
+            writePassword = ReadStr("Введите пароль: ");
+            
+            if (writePassword == programmEnd)
                 {
-                    readPassword = String.Empty; // стоп тут был
+                    writePassword = String.Empty;
+                    break;
+                }
+
+            while (writePassword != savePassword)
+            {
+                writePassword = ReadStr("Пароль не верный. Введите пароль: ");
+                
+                if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
                     break;
                 }
             }
-            if (readPassword == writePassword) 
+            if (writePassword == savePassword) 
             {
                 writePassword = ReadStr("Установите новый пароль: ");
+                
+                if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
+                
+                savePassword = writePassword;
             }
         }
     }
     if (command.ToLower() == setName)
     {
-        if (writeSetName == String.Empty && writePassword == String.Empty)
+        if (saveName == String.Empty && savePassword == String.Empty)
         {
-            writeSetName = ReadStr("Установите новое имя пользователя: ");writePassword = ReadStr("Установите новый пароль: ");
+            writeSetName = ReadStr("Установите новое имя пользователя: ");
+            
+            if (writeSetName == programmEnd)
+                {
+                    writeSetName = String.Empty;
+                    break;
+                }
+            
+            saveName = writeSetName;
+
+            writePassword = ReadStr("Установите новый пароль: ");
+            
+            if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
+
+            savePassword = writePassword;
         }
         else if (writeSetName == String.Empty && writePassword != String.Empty)
         {
             writeSetName = ReadStr("Установите новое имя пользователя: ");
+            
+            if (writeSetName == programmEnd)
+                {
+                    writeSetName = String.Empty;
+                    break;
+                }
+            
+            saveName = writeSetName;
+
         }
         else
         {
-            readPassword = ReadStr("Для смены имени введите пароль: ");
+            writePassword = ReadStr("Для смены имени введите пароль: ");
 
-            while (readPassword != writePassword)
+            if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
+
+            while (writePassword != savePassword)
             {
-                readPassword = ReadStr("Пароль не верный. Для смены имени введите пароль: ");
+                writePassword = ReadStr("Пароль не верный. Для смены имени введите пароль: ");
+                
+                if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
             }
-            if (readPassword == writePassword) 
+            
+            if (writePassword == savePassword) 
             {
                 writeSetName = ReadStr("Установите новое имя пользователя: ");
+                
+                if (writeSetName == programmEnd)
+                {
+                    writeSetName = String.Empty;
+                    break;
+                }
+
+                saveName = writeSetName;
             }
         }
     }
@@ -92,19 +157,31 @@ while (command.ToLower() != programmEnd)
         }
         else
         {
-            readPassword = ReadStr("Введите пароль: ");
+            writePassword = ReadStr("Введите пароль: ");
 
-            while (readPassword != writePassword && readPassword != programmEnd)
+            if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
+
+            while (writePassword != savePassword)
             {
-                readPassword = ReadStr("Пароль не верный. Введите пароль: ");
+                writePassword = ReadStr("Пароль не верный. Введите пароль: ");
+                if (writePassword == programmEnd)
+                {
+                    writePassword = String.Empty;
+                    break;
+                }
             }
-            if (readPassword == writePassword) Console.WriteLine(writeSetName);
+
+            if (writePassword == savePassword) Console.WriteLine(writeSetName);
         }
     }
     if (command.ToLower() == help)
     {
         Console.WriteLine("Список команд:");
-        Console.WriteLine("SetName – Установить/изменить имя");
+        Console.WriteLine("SetName – Установить/изменить имя (если не задан пароль, то появится приглашение для установки пароля)");
         Console.WriteLine("Password – Установить/изменить пароль");
         Console.WriteLine("Name – вывести имя после ввода пароля");
         Console.WriteLine("Exit – выход");
