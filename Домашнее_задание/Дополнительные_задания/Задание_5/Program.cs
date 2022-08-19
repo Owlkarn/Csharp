@@ -83,11 +83,9 @@ switch (v_1.ToLower())
             return k_v;
 }
 
-bool VihodString(string exit)
+bool isExitString(string exit)
 {
-    if (exit == "exit");
-    bool j = false;
-    return j;
+    return exit != "exit";
 }
 
 string[] koshelek = {"рубли", "доллары", "евро", "юани", "фунты"};
@@ -110,10 +108,10 @@ while (true)
     
     Console.WriteLine(); 
     val_1 = ReadStr("Введите конвертируемую валюту: ");
-    ex = VihodString(val_1);
+    ex = isExitString(val_1);
     if (ex == false) break;
     val_1 = ProverkaNaValutu(val_1, koshelek);
-    ex = VihodString(val_1);
+    ex = isExitString(val_1);
     if (ex == false) break;
 
     double kol_val = ReadDouble("Введите количество конвертируемой валюты: ");
@@ -145,10 +143,10 @@ while (true)
     }
 
     val_2 = ReadStr("Введите валюту, в которую производите конвертирование: ");
-    ex = VihodString(val_2);
+    ex = isExitString(val_2);
     if (ex == false) break;
     val_2 = ProverkaNaValutu(val_2, koshelek);
-    ex = VihodString(val_2);
+    ex = isExitString(val_2);
     if (ex == false) break;
 
     Console.WriteLine(); 
