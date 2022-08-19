@@ -1,86 +1,86 @@
 ﻿double ReadDouble(string message)
 {
     Console.Write(message);
-    double n = Convert.ToDouble(Console.ReadLine());
-    while (n < 0)
+    double znachenie = Convert.ToDouble(Console.ReadLine());
+    while (znachenie < 0)
     {
         Console.Write("Введено неверное значение, введите новое: ");
-        n = Convert.ToDouble(Console.ReadLine());
+        znachenie = Convert.ToDouble(Console.ReadLine());
     }
-    return n;
+    return znachenie;
 }
 
-string ReadStr(string convert)
+string ReadStr(string message)
 {
-    Console.Write(convert);
+    Console.Write(message);
     return Console.ReadLine();
 }
 
-double ProverkaNaNalichie(double nado, double est)
+double ProverkaNaNalichie(double nadoValuti, double estValuti)
 {
-    bool check = true;
-    while (check)
+    bool proverka = true;
+    while (proverka)
     {
-        if (nado > est)
+        if (nadoValuti > estValuti)
         {
             Console.WriteLine(); 
             Console.Write("На вашем счете недостаточно средств, введите новое значение: ");
-            nado = Convert.ToDouble(Console.ReadLine());
+            nadoValuti = Convert.ToDouble(Console.ReadLine());
         }
-        else check = false;        
+        else proverka = false;        
     }
-    return nado;
+    return nadoValuti;
 }
 
-string ProverkaNaValutu(string v, string[] arr)
+string ProverkaNaValutu(string nameValuta, string[] spisokValut)
 {
-    bool ch = true;
-    while (ch)
+    bool proverka = true;
+    while (proverka)
     {
-        if (arr.Contains(v))
+        if (spisokValut.Contains(nameValuta))
         {
-            ch = false;
+            proverka = false;
         }
         else
         {
             Console.WriteLine(); 
             Console.Write("Такой валюты у Вас нет, введите новое значение: ");
-            v = Console.ReadLine();
+            nameValuta = Console.ReadLine();
         }
     }
-    return v;
+    return nameValuta;
 }
 
-double Vichitanie(double val, double res)
+double Vichitanie(double ostatok, double vichitaemoe)
 {
-    val -=res;
-    return val;
+    ostatok -=vichitaemoe;
+    return ostatok;
 }
 
-double Convertirovanie(string v_1, double k_v)
+double Convertirovanie(string valuta1, double perevodVValutu)
 {
-switch (v_1.ToLower())
+switch (valuta1.ToLower())
             {
                 case "рубли":
                     break;
 
                 case "доллары":
-                    k_v *= 60;
+                    perevodVValutu *= 60;
                     break;
 
                 case "евро":
-                    k_v *= 70;
+                    perevodVValutu *= 70;
                     break;
 
                 case "юани":
-                    k_v *= 15;
+                    perevodVValutu *= 15;
                     break;
 
                 case "фунты":
-                    k_v *= 80;
+                    perevodVValutu *= 80;
                     break;
             }
-            return k_v;
+            return perevodVValutu;
 }
 
 bool isExitString(string exit)
@@ -90,99 +90,99 @@ bool isExitString(string exit)
 
 string[] koshelek = {"рубли", "доллары", "евро", "юани", "фунты"};
 string[]  programmEnd = {"e", "x", "i", "t"};
-string  val_1 = String.Empty,
-        val_2 = String.Empty;
-bool ex = true;
+string  convertiruemayaValuta = String.Empty,
+        valutaVKotoruyuConvertiruem = String.Empty;
+bool proverkaNaVihod = true;
 
 Console.WriteLine("Укажите какое количество каждой валюты у Вас имеется:");
-double rub = ReadDouble("Рубли: ");
-double dol = ReadDouble("Доллары: ");
-double eur = ReadDouble("Евро: ");
-double yun = ReadDouble("Юани: ");
-double fun = ReadDouble("Фунты: ");
+double rubli = ReadDouble("Рубли: ");
+double dollari = ReadDouble("Доллары: ");
+double euro = ReadDouble("Евро: ");
+double yuani = ReadDouble("Юани: ");
+double funti = ReadDouble("Фунты: ");
 Console.WriteLine();        
 
 while (true)
 {
-    Console.WriteLine($"Ваш баланс: \nРубли: {rub} \nДоллары: {dol} \nЕвро: {eur} \nЮани: {yun} \nФунты: {fun}");
+    Console.WriteLine($"Ваш баланс: \nРубли: {rubli} \nДоллары: {dollari} \nЕвро: {euro} \nЮани: {yuani} \nФунты: {funti}");
     
     Console.WriteLine(); 
-    val_1 = ReadStr("Введите конвертируемую валюту: ");
-    ex = isExitString(val_1);
-    if (ex == false) break;
-    val_1 = ProverkaNaValutu(val_1, koshelek);
-    ex = isExitString(val_1);
-    if (ex == false) break;
+    convertiruemayaValuta = ReadStr("Введите конвертируемую валюту: ");
+    proverkaNaVihod = isExitString(convertiruemayaValuta);
+    if (proverkaNaVihod == false) break;
+    convertiruemayaValuta = ProverkaNaValutu(convertiruemayaValuta, koshelek);
+    proverkaNaVihod = isExitString(convertiruemayaValuta);
+    if (proverkaNaVihod == false) break;
 
-    double kol_val = ReadDouble("Введите количество конвертируемой валюты: ");
+    double kolichestvoKonvertiruemoyValuti = ReadDouble("Введите количество конвертируемой валюты: ");
 
-    if (val_1.ToLower() == koshelek[0]) 
+    if (convertiruemayaValuta.ToLower() == koshelek[0]) 
     {
-        kol_val = ProverkaNaNalichie(kol_val, rub);
-        rub = Vichitanie(rub, kol_val);
+        kolichestvoKonvertiruemoyValuti = ProverkaNaNalichie(kolichestvoKonvertiruemoyValuti, rubli);
+        rubli = Vichitanie(rubli, kolichestvoKonvertiruemoyValuti);
     }
-    else if (val_1.ToLower() == koshelek[1]) 
+    else if (convertiruemayaValuta.ToLower() == koshelek[1]) 
     {
-        kol_val = ProverkaNaNalichie(kol_val, dol);
-        dol = Vichitanie(dol, kol_val);
+        kolichestvoKonvertiruemoyValuti = ProverkaNaNalichie(kolichestvoKonvertiruemoyValuti, dollari);
+        dollari = Vichitanie(dollari, kolichestvoKonvertiruemoyValuti);
     }
-    else if (val_1.ToLower() == koshelek[2]) 
+    else if (convertiruemayaValuta.ToLower() == koshelek[2]) 
     {
-        kol_val = ProverkaNaNalichie(kol_val, eur);
-        eur = Vichitanie(eur, kol_val);
+        kolichestvoKonvertiruemoyValuti = ProverkaNaNalichie(kolichestvoKonvertiruemoyValuti, euro);
+        euro = Vichitanie(euro, kolichestvoKonvertiruemoyValuti);
     }
-    else if (val_1.ToLower() == koshelek[3]) 
+    else if (convertiruemayaValuta.ToLower() == koshelek[3]) 
     {
-        kol_val = ProverkaNaNalichie(kol_val, yun);
-        yun = Vichitanie(yun, kol_val);
+        kolichestvoKonvertiruemoyValuti = ProverkaNaNalichie(kolichestvoKonvertiruemoyValuti, yuani);
+        yuani = Vichitanie(yuani, kolichestvoKonvertiruemoyValuti);
     }
-    else if (val_1.ToLower() == koshelek[4]) 
+    else if (convertiruemayaValuta.ToLower() == koshelek[4]) 
     {
-        kol_val = ProverkaNaNalichie(kol_val, fun);
-        fun = Vichitanie(fun, kol_val);
+        kolichestvoKonvertiruemoyValuti = ProverkaNaNalichie(kolichestvoKonvertiruemoyValuti, funti);
+        funti = Vichitanie(funti, kolichestvoKonvertiruemoyValuti);
     }
 
-    val_2 = ReadStr("Введите валюту, в которую производите конвертирование: ");
-    ex = isExitString(val_2);
-    if (ex == false) break;
-    val_2 = ProverkaNaValutu(val_2, koshelek);
-    ex = isExitString(val_2);
-    if (ex == false) break;
+    valutaVKotoruyuConvertiruem = ReadStr("Введите валюту, в которую производите конвертирование: ");
+    proverkaNaVihod = isExitString(valutaVKotoruyuConvertiruem);
+    if (proverkaNaVihod == false) break;
+    valutaVKotoruyuConvertiruem = ProverkaNaValutu(valutaVKotoruyuConvertiruem, koshelek);
+    proverkaNaVihod = isExitString(valutaVKotoruyuConvertiruem);
+    if (proverkaNaVihod == false) break;
 
     Console.WriteLine(); 
-    Console.WriteLine($"Вы конверитруете {val_1} в {val_2} в количестве {kol_val}");
+    Console.WriteLine($"Вы конверитруете {convertiruemayaValuta} в {valutaVKotoruyuConvertiruem} в количестве {kolichestvoKonvertiruemoyValuti}");
     
     Console.WriteLine(); 
-    switch(val_2.ToLower())
+    switch(valutaVKotoruyuConvertiruem.ToLower())
     {
         case "рубли":
-            kol_val = Convertirovanie(val_1, kol_val);
-            rub += kol_val;
-            Console.WriteLine($"Итого у вас: {rub} рублей");
+            kolichestvoKonvertiruemoyValuti = Convertirovanie(convertiruemayaValuta, kolichestvoKonvertiruemoyValuti);
+            rubli += kolichestvoKonvertiruemoyValuti;
+            Console.WriteLine($"Итого у вас: {rubli} рублей");
             break;
 
         case "доллары":
-            kol_val = Convertirovanie(val_1, kol_val);
-            dol += kol_val/60; 
-            Console.WriteLine($"Итого у вас: {dol} долларов");
+            kolichestvoKonvertiruemoyValuti = Convertirovanie(convertiruemayaValuta, kolichestvoKonvertiruemoyValuti);
+            dollari += kolichestvoKonvertiruemoyValuti/60; 
+            Console.WriteLine($"Итого у вас: {dollari} долларов");
             break;
     
         case "евро":
-            kol_val = Convertirovanie(val_1, kol_val);
-            eur += kol_val/70;
-            Console.WriteLine($"Итого у вас: {eur} евро");
+            kolichestvoKonvertiruemoyValuti = Convertirovanie(convertiruemayaValuta, kolichestvoKonvertiruemoyValuti);
+            euro += kolichestvoKonvertiruemoyValuti/70;
+            Console.WriteLine($"Итого у вас: {euro} евро");
             break;
 
         case "юани":
-            kol_val = Convertirovanie(val_1, kol_val);
-            yun += kol_val/15;
-            Console.WriteLine($"Итого у вас: {yun} юаней");
+            kolichestvoKonvertiruemoyValuti = Convertirovanie(convertiruemayaValuta, kolichestvoKonvertiruemoyValuti);
+            yuani += kolichestvoKonvertiruemoyValuti/15;
+            Console.WriteLine($"Итого у вас: {yuani} юаней");
             break;
 
         case "фунты":
-            kol_val = Convertirovanie(val_1, kol_val);
-            fun += kol_val/80;
-            Console.WriteLine($"Итого у вас: {fun} фунтов");
+            kolichestvoKonvertiruemoyValuti = Convertirovanie(convertiruemayaValuta, kolichestvoKonvertiruemoyValuti);
+            funti += kolichestvoKonvertiruemoyValuti/80;
+            Console.WriteLine($"Итого у вас: {funti} фунтов");
             break;
     }        
     }                          
