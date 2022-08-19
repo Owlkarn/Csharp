@@ -83,15 +83,18 @@ switch (v_1.ToLower())
             return k_v;
 }
 
-// void Vihod(string exit)
-// {
-//     if (exit == "exit") break;
-// }
+bool VihodString(string exit)
+{
+    if (exit == "exit");
+    bool j = false;
+    return j;
+}
 
 string[] koshelek = {"рубли", "доллары", "евро", "юани", "фунты"};
-string  programmEnd = "exit",
-        val_1 = String.Empty,
+string[]  programmEnd = {"e", "x", "i", "t"};
+string  val_1 = String.Empty,
         val_2 = String.Empty;
+bool ex = true;
 
 Console.WriteLine("Укажите какое количество каждой валюты у Вас имеется:");
 double rub = ReadDouble("Рубли: ");
@@ -107,7 +110,11 @@ while (true)
     
     Console.WriteLine(); 
     val_1 = ReadStr("Введите конвертируемую валюту: ");
+    ex = VihodString(val_1);
+    if (ex == false) break;
     val_1 = ProverkaNaValutu(val_1, koshelek);
+    ex = VihodString(val_1);
+    if (ex == false) break;
 
     double kol_val = ReadDouble("Введите количество конвертируемой валюты: ");
 
@@ -138,7 +145,11 @@ while (true)
     }
 
     val_2 = ReadStr("Введите валюту, в которую производите конвертирование: ");
+    ex = VihodString(val_2);
+    if (ex == false) break;
     val_2 = ProverkaNaValutu(val_2, koshelek);
+    ex = VihodString(val_2);
+    if (ex == false) break;
 
     Console.WriteLine(); 
     Console.WriteLine($"Вы конверитруете {val_1} в {val_2} в количестве {kol_val}");
@@ -177,6 +188,3 @@ while (true)
             break;
     }        
     }                          
-
-
-
