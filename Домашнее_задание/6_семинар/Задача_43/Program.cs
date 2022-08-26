@@ -2,7 +2,7 @@
 {
     Console.Write(message);
     return Convert.ToDouble(Console.ReadLine());
-    
+
 }
 Console.WriteLine("Даны две прямые, заданные уравнениями: y = k1 * x + b1 и y = k2*x + b2");
 
