@@ -5,7 +5,7 @@ char find = ',';
 int stop1 = 0;
 int stop2 = 0;
 int i = 0;
-int r = 0;
+int l = 0;
 int size = 1;
 int count = 0;
 
@@ -33,8 +33,8 @@ while (i < numbers.Length)
         {
             number += numbers[j];
         }
-        numbersInString[r] = Convert.ToInt32(number);
-        r++;
+        numbersInString[l] = Convert.ToInt32(number);
+        l++;
         stop2 = i + 1;
         number = String.Empty;
     }
