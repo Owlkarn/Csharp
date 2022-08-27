@@ -23,7 +23,7 @@ void FillArray2D(int[,] array)
     {
         for (int j = 0; j < array.GetLength(1); j++)
         {
-            array[i, j] = new Random().Next(2, 10);
+            array[i, j] = new Random().Next(1, 10);
         }
     }
 }
@@ -38,4 +38,5 @@ int findColumn = findElement % 10;
 FillArray2D(numbers);
 PrintArray2D(numbers);
 
-
+if (findRow < rows && findColumn < columns) Console.WriteLine(numbers[findRow, findColumn]);
+else Console.WriteLine("Такого числа в массиве нет");
