@@ -28,45 +28,45 @@ void FillArray2D(int[,] array)
     }
 }
 
-int[,] DelMinRowColumn(int[,] array, int xMin, int yMin)
+void PrintArray(int[] array)
 {
-    int[,] newArray = new int[array.GetLength(0) - 1, array.GetLength(1) - 1];
-
-    for (int i = 0; i < newArray.GetLength(0); i++)
+    for (int i = 0; i < array.Length; i++)
     {
-        for (int j = 0; j < newArray.GetLength(1); j++)
-        {
-            if (i < xMin && j < yMin) newArray[i, j] = array[i, j];
-            else if (i >= xMin && j < yMin) newArray[i, j] = array[i + 1, j];
-            else if (j >= yMin && i < xMin) newArray[i, j] = array[i, j + 1];
-            else newArray[i, j] = array[i + 1, j + 1];
-        }
+        Console.Write(array[i] + " ");
     }
-    return newArray;
+    Console.WriteLine();
 }
 
 int rows = ReadInt("Введите количество строк: ");
 int columns = ReadInt("Введите количество столбцов: ");
 int[,] numbers = new int[rows, columns];
+int[] sumRow = new int[rows];
+int sum = 0;
 
 FillArray2D(numbers);
 PrintArray2D(numbers);
-
-int iMin = 0;
-int jMin = 0;
 
 for (int i = 0; i < numbers.GetLength(0); i++)
 {
     for (int j = 0; j < numbers.GetLength(1); j++)
     {
-        if (numbers[iMin, jMin] > numbers[i, j])
-        {
-            iMin = i;
-            jMin = j;
-        }
+        sum += numbers[i, j];
     }
+    sumRow[i] = sum;
+    sum = 0;
 }
 
-numbers = DelMinRowColumn(numbers, iMin, jMin);
-PrintArray2D(numbers);
+PrintArray(sumRow);
 
+int minSum = sumRow[0];
+int minSumIndex = 0;
+
+for (int i = 0; i < sumRow.Length; i++)
+{
+    if (minSum > sumRow[i])
+    {
+        minSum = sumRow[i];
+        minSumIndex = i;
+    }
+}
+Console.WriteLine($"Индекс строки с наименьшей суммой элементов {minSumIndex}");

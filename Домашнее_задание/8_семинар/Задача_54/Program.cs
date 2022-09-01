@@ -28,21 +28,23 @@ void FillArray2D(int[,] array)
     }
 }
 
-int[,] DelMinRowColumn(int[,] array, int xMin, int yMin)
+void SortArray(int[,] array)
 {
-    int[,] newArray = new int[array.GetLength(0) - 1, array.GetLength(1) - 1];
-
-    for (int i = 0; i < newArray.GetLength(0); i++)
+    for (int i = 0; i < array.GetLength(0); i++)
     {
-        for (int j = 0; j < newArray.GetLength(1); j++)
+        for (int j = 0; j < array.GetLength(1); j++)
         {
-            if (i < xMin && j < yMin) newArray[i, j] = array[i, j];
-            else if (i >= xMin && j < yMin) newArray[i, j] = array[i + 1, j];
-            else if (j >= yMin && i < xMin) newArray[i, j] = array[i, j + 1];
-            else newArray[i, j] = array[i + 1, j + 1];
+            for (int k = 0; k < array.GetLength(1); k++)
+            {
+                if (array[i, k] < array[i, j])
+                {
+                    int temp = array[i, j];
+                    array[i, j] = array[i, k];
+                    array[i, k] = temp;
+                }
+            }
         }
     }
-    return newArray;
 }
 
 int rows = ReadInt("Введите количество строк: ");
@@ -51,22 +53,8 @@ int[,] numbers = new int[rows, columns];
 
 FillArray2D(numbers);
 PrintArray2D(numbers);
+SortArray(numbers);
 
-int iMin = 0;
-int jMin = 0;
+Console.WriteLine();
 
-for (int i = 0; i < numbers.GetLength(0); i++)
-{
-    for (int j = 0; j < numbers.GetLength(1); j++)
-    {
-        if (numbers[iMin, jMin] > numbers[i, j])
-        {
-            iMin = i;
-            jMin = j;
-        }
-    }
-}
-
-numbers = DelMinRowColumn(numbers, iMin, jMin);
 PrintArray2D(numbers);
-
