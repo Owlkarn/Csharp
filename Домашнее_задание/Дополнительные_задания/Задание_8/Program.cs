@@ -80,12 +80,6 @@ int SumArray(int[] array)
     return sumAr;
 }
 
-int ReadInt(string message)
-{
-    Console.Write(message);
-    return Convert.ToInt32(Console.ReadLine());
-}
-
 bool repeatProgramm = true;
 int[] numbers = new int[0];
 Console.WriteLine("Список команд:\n" +
