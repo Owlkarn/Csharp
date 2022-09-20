@@ -1,13 +1,4 @@
-﻿void PrintArray(int[] array)
-{
-    Console.Write("Текущий массив: ");
-    for (int i = 0; i < array.Length; i++)
-    {
-        Console.Write(array[i] + " ");
-    }
-}
-
-void AddStartDataToArrays(string[] surname, string[] name, string[] secondname, string[] post, int[] money)
+﻿void AddStartDataToArrays(string[] surname, string[] name, string[] secondname, string[] post, int[] money)
 {
     string[] surnames = { "Иванов", "Петров", "Смирнов", "Кузнецов", "Попов", "Васильев", "Соколов", "Михайлов", "Новиков", "Фёдоров", "Морозов", "Волков", "Алексеев", "Лебедев", "Семёнов", "Егоров", "Павлов", "Козлов", "Степанов", "Николаев", "Орлов", "Андреев", "Макаров", "Никитин", "Захаров", "Зайцев", "Соловьев", "Борисов", "Яковлев", "Григорьев" };
     string[] names = { "Артём", "Александр", "Михаил", "Максим", "Иван", "Даниил", "Дмитрий", "Кирилл", "Никита", "Егор", "Матвей", "Андрей", "Илья", "Алексей", "Роман", "Сергей", "Владислав", "Ярослав", "Тимофей", "Арсений", "Денис", "Владимир", "Павел", "Глеб", "Константин", "Богдан", "Евгений", "Николай", "Степан", "Захар" };
@@ -26,7 +17,13 @@ void AddStartDataToArrays(string[] surname, string[] name, string[] secondname, 
 int ReadInt(string message)
 {
     Console.Write(message);
-    return Convert.ToInt32(Console.ReadLine());
+    string number = Console.ReadLine();
+    while (number == String.Empty)
+    {
+        Console.Write(message);
+        number = Console.ReadLine();
+    }
+    return Convert.ToInt32(number);
 }
 
 void SelectionSort(string[] surname, string[] name, string[] secondname, string[] post, int[] money)
@@ -59,7 +56,7 @@ void SelectionSort(string[] surname, string[] name, string[] secondname, string[
     }
 }
 
-string[] AddToArrayString(string[] array, string newElement)
+string[] AddToArrayStringIn(string[] array, string newElement)
 {
     string[] newArray = new string[array.Length + 1];
     for (int i = 0; i < array.Length; i++)
@@ -68,7 +65,7 @@ string[] AddToArrayString(string[] array, string newElement)
     return newArray;
 }
 
-int[] AddToArrayInt(int[] array, int newElement)
+int[] AddToArrayIntIn(int[] array, int newElement)
 {
     int[] newArray = new int[array.Length + 1];
     for (int i = 0; i < array.Length; i++)
@@ -77,7 +74,7 @@ int[] AddToArrayInt(int[] array, int newElement)
     return newArray;
 }
 
-int[] RemoveFromArrayInt(int[] array, int number)
+int[] RemoveFromArrayIntIn(int[] array, int number)
 {
     int[] newArray = new int[array.Length - 1];
     for (int i = 0; i < number - 1; i++)
@@ -91,7 +88,7 @@ int[] RemoveFromArrayInt(int[] array, int number)
     return newArray;
 }
 
-string[] RemoveFromArrayString(string[] array, int number)
+string[] RemoveFromArrayStringIn(string[] array, int number)
 {
     string[] newArray = new string[array.Length - 1];
     for (int i = 0; i < number - 1; i++)
@@ -103,6 +100,49 @@ string[] RemoveFromArrayString(string[] array, int number)
         newArray[i - 1] = array[i];
     }
     return newArray;
+}
+
+int[] FilterArrayStringIn(string[] array, string search)
+{
+    int count = 0;
+    int[] filterArray = new int[0];
+    for (int i = 0; i < array.Length; i++)
+    {
+        if (array[i].IndexOf(search) != -1)
+        {
+            count++;
+            int[] tempFilterArray = new int[count];
+
+            for (int j = 0; j < count - 1; j++)
+                tempFilterArray[j] = filterArray[j];
+
+            tempFilterArray[count - 1] = i;
+            filterArray = tempFilterArray;
+        }
+    }
+    return filterArray;
+}
+
+void PrintFilterArrayStringIn(string[] surname, string[] name, string[] secondname, string[] post, int[] money, int[] filter)
+{
+    string[] filterSurname = new string[filter.Length];
+    string[] filterName = new string[filter.Length];
+    string[] filterSecondname = new string[filter.Length];
+    string[] filterPost = new string[filter.Length];
+    int[] filterMoney = new int[filter.Length];
+
+    for (int i = 0; i < filter.Length; i++)
+    {
+        filterMoney[i] = money[filter[i]];
+        filterName[i] = name[filter[i]];
+        filterPost[i] = post[filter[i]];
+        filterSecondname[i] = secondname[filter[i]];
+        filterSurname[i] = surname[filter[i]];
+    }
+    for (int i = 0; i < filter.Length; i++)
+    {
+        Console.WriteLine($"{i + 1}. {filterSurname[i]} {filterName[i]} {filterSecondname[i]} {filterPost[i]} {filterMoney[i]}");
+    }
 }
 
 int peopleNumber = ReadInt("Укажите количество человек, которое работает в компании в данный момент (от 1 до 20): ");
@@ -119,6 +159,7 @@ Console.WriteLine("Список команд:\n" +
 "- AddFile – добавление нового досье\n" +
 "- RemoveFile -  удаление досье\n" +
 "- FilterSalary – фильтр досье по зарплате\n" +
+"- FilterLastname – фильтр досье по фамилии\n" +
 "- FilterPosition – фильтр досье по должности\n" +
 "- Exit - выход");
 
@@ -147,7 +188,12 @@ while (repeatProgramm)
 
                 else
                 {
-                    lastname = AddToArrayString(lastname, addLastname);
+                    while (addLastname == String.Empty)
+                    {
+                        Console.WriteLine("Введите фамилию работника: ");
+                        addLastname = Console.ReadLine();
+                    }
+                    lastname = AddToArrayStringIn(lastname, addLastname);
                 }
 
                 Console.WriteLine("Введите имя работника: ");
@@ -158,7 +204,12 @@ while (repeatProgramm)
 
                 else
                 {
-                    firstname = AddToArrayString(firstname, addFirstname);
+                    while (addFirstname == String.Empty)
+                    {
+                        Console.WriteLine("Введите имя работника: ");
+                        addFirstname = Console.ReadLine();
+                    }
+                    firstname = AddToArrayStringIn(firstname, addFirstname);
                 }
 
                 Console.WriteLine("Введите отчество работника: ");
@@ -169,7 +220,12 @@ while (repeatProgramm)
 
                 else
                 {
-                    middlename = AddToArrayString(middlename, addMiddlename);
+                    while (addMiddlename == String.Empty)
+                    {
+                        Console.WriteLine("Введите отчество работника: ");
+                        addMiddlename = Console.ReadLine();
+                    }
+                    middlename = AddToArrayStringIn(middlename, addMiddlename);
                 }
 
                 Console.WriteLine("Введите должность работника: ");
@@ -180,11 +236,16 @@ while (repeatProgramm)
 
                 else
                 {
-                    position = AddToArrayString(position, addPosition);
+                    while (addPosition == String.Empty)
+                    {
+                        Console.WriteLine("Введите должность работника: ");
+                        addPosition = Console.ReadLine();
+                    }
+                    position = AddToArrayStringIn(position, addPosition);
                 }
 
                 int addSalary = ReadInt("Введите зарплату работника: ");
-                salary = AddToArrayInt(salary, addSalary);
+                salary = AddToArrayIntIn(salary, addSalary);
 
                 SelectionSort(lastname, firstname, middlename, position, salary);
                 break;
@@ -199,11 +260,11 @@ while (repeatProgramm)
                 else
                 {
                     int delNumber = ReadInt("Введите номер досье для удаления: ");
-                    lastname = RemoveFromArrayString(lastname, delNumber);
-                    firstname = RemoveFromArrayString(firstname, delNumber);
-                    middlename = RemoveFromArrayString(middlename, delNumber);
-                    position = RemoveFromArrayString(position, delNumber);
-                    salary = RemoveFromArrayInt(salary, delNumber);
+                    lastname = RemoveFromArrayStringIn(lastname, delNumber);
+                    firstname = RemoveFromArrayStringIn(firstname, delNumber);
+                    middlename = RemoveFromArrayStringIn(middlename, delNumber);
+                    position = RemoveFromArrayStringIn(position, delNumber);
+                    salary = RemoveFromArrayIntIn(salary, delNumber);
                 }
                 break;
             }
@@ -238,7 +299,7 @@ while (repeatProgramm)
                         minI++;
 
                     int maxI = 0;
-                    while (salary[maxI] >= filterMax)
+                    while (salary[maxI] > filterMax)
                         maxI++;
 
                     string[] filterFirstname = new string[minI - maxI];
@@ -274,50 +335,40 @@ while (repeatProgramm)
                 {
                     Console.WriteLine("Введите фамилию работника: ");
                     string searchLastname = Console.ReadLine();
-                    int count = 0;
-                    string[] filterLastname = new string[0];
-                    string[] filterFirstname = new string[0];
-                    string[] filterMiddlename = new string[0];
-                    string[] filterPosition = new string[0];
-                    int[] filterSalary = new int[0];
 
-                    for (int i = 0; i < lastname.Length; i++)
+                    while (searchLastname == String.Empty)
                     {
-                        if (lastname[i].IndexOf(searchLastname) != -1)
-                        {
-                            count++;
-                            string[] tempFilterLastname = new string[count];
-                            string[] tempFilterFirstname = new string[count];
-                            string[] tempFilterMiddlename = new string[count];
-                            string[] tempFilterPosition = new string[count];
-                            int[] tempFilterSalary = new int[count];
-
-                            for (int j = 0; j < count - 1; j++)
-                            {
-                                tempFilterLastname[j] = filterLastname[j];
-                                tempFilterFirstname[j] = filterFirstname[j];
-                                tempFilterMiddlename[j] = filterMiddlename[j];
-                                tempFilterPosition[j] = filterPosition[j];
-                                tempFilterSalary[j] = filterSalary[j];
-                            }
-
-                            tempFilterLastname[count - 1] = lastname[i];
-                            tempFilterFirstname[count - 1] = firstname[i];
-                            tempFilterMiddlename[count - 1] = middlename[i];
-                            tempFilterPosition[count - 1] = position[i];
-                            tempFilterSalary[count - 1] = salary[i];
-                            filterLastname = tempFilterLastname;
-                            filterFirstname = tempFilterFirstname;
-                            filterMiddlename = tempFilterMiddlename;
-                            filterPosition = tempFilterPosition;
-                            filterSalary = tempFilterSalary;
-                        }
+                        Console.WriteLine("Введите фамилию работника: ");
+                        searchLastname = Console.ReadLine();
                     }
 
-                    for (int i = 0; i < filterSalary.Length; i++)
+                    int[] filterLastname = FilterArrayStringIn(lastname, searchLastname);
+
+                    PrintFilterArrayStringIn(lastname, firstname, middlename, position, salary, filterLastname);
+                }
+                break;
+            }
+        case "filterposition":
+            {
+                if (position.Length == 0)
+                {
+                    Console.WriteLine("Каталог пуст");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Введите должность работника: ");
+                    string searchPosition = Console.ReadLine();
+
+                    while (searchPosition == String.Empty)
                     {
-                        Console.WriteLine($"{i + 1}. {filterLastname[i]} {filterFirstname[i]} {filterMiddlename[i]} {filterPosition[i]} {filterSalary[i]}");
+                        Console.WriteLine("Введите должность работника: ");
+                        searchPosition = Console.ReadLine();
                     }
+
+                    int[] filterPosition = FilterArrayStringIn(position, searchPosition);
+
+                    PrintFilterArrayStringIn(lastname, firstname, middlename, position, salary, filterPosition);
                 }
                 break;
             }
